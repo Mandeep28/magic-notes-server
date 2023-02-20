@@ -1,0 +1,3 @@
+const mainSchema = new Schema({
+  refId: { type: Schema.Types.ObjectId, ref: ['User', 'Teacher', 'Student'] }
+});
