@@ -14,7 +14,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 const port = process.env.PORT || 5000;
+
 const url = process.env.MONGO_URI;
+
 // routes
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/notes", notes);
@@ -24,12 +26,14 @@ app.get("/onlyforcheck",(req, res)=>{
 app.use(errorHandler)
 
 
+
+
 const start = async () => {
   // it will await until the db connected
   try {
    await connectDB(url);
     app.listen(port, () => {
-      console.log(`Connect to db + magic notes app listening on port ${port}/`);
+      console.log(`magic notes app listening on port ${port}/`);
       // console.log("Magic notes app is listening on port " + port);
       
     });
