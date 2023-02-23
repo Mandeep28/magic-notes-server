@@ -8,11 +8,15 @@ const NotesSchema = new Schema({
   },
   title: {
     type: String,
-    require: true,
+    require: [true, "Value Must be required"],
+    min: [5, "Length must be 6 character"],
+    max : [250, "Length should not be graeter than 250"]
   },
   description: {
     type: String,
-    require: true,
+    require: [true, "Value Must be required"],
+    min: [5, "Length must be 6 character"],
+    max : [2000, "Length should not be graeter than 2000"]
   },
   tag: {
     type: String,

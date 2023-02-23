@@ -5,6 +5,7 @@ const { body, validationResult } = require("express-validator");
 // intenal packages
 const Notes = require("../models/Notes");
 const fetchUser = require("../middleware/fetchUserDetail");
+const { customErrorHander } = require("../errors/customError");
 
 // code start
 const router = express.Router();
@@ -67,7 +68,7 @@ router.put("/updatenote:id", fetchUser, async (req, res) => {
     // check if note id is valid or not
     let notes = await Notes.findById(req.params.id);
     if (!notes) {
-      return res.status(404).json({ status: false, msg: "note not found " });
+      return next(customErrorHander("Note not found", 404))
     }
     // check if correct user is update the note or not
     if (notes.user.toString() !== req.user.id) {
@@ -102,7 +103,7 @@ router.delete("/deletenote:id", fetchUser, async (req, res) => {
     // check if note id is valid or not
     let notes = await Notes.findById(req.params.id);
     if (!notes) {
-      return res.status(404).json({ status: false, msg: "note not found " });
+      return next(customErrorHander("Note not found", 404))
     }
     // check if correct user is update the note or not
     if (notes.user.toString() !== req.user.id) {
