@@ -1,21 +1,23 @@
 console.log("welcome to inotebook");
 // ENTERNAL PACKAGES
 const express = require("express");
-require("dotenv").config({path: "./.env"});
-const cors = require("cors");
 //INTERNAL PACKAGES (modules)
 const auth = require("./routes/auth");
 const notes = require("./routes/notes");
 const connectDB = require("./db_connect");
 const errorHandler = require("./middleware/errorHandler")
+const cors = require("cors");
+const { customErrorHander } = require("./errors/customError");
+require('express-async-errors');
+require("dotenv").config({path: "./.env"});
 
 // code start
 const app = express();
 app.use(express.json());
 app.use(cors());
 const port = process.env.PORT || 5000;
-
-const url = process.env.MONGO_URI;
+// const url = process.env.MONGO_URI;
+const url = "mongodb://127.0.0.1:27017/magicNotes";
 
 // routes
 app.use("/api/v1/auth", auth);
@@ -29,12 +31,10 @@ app.use(errorHandler)
 
 
 const start = async () => {
-  // it will await until the db connected
-  try {
+  try { 
    await connectDB(url);
     app.listen(port, () => {
-      console.log(`magic notes app listening on port ${port}/`);
-      // console.log("Magic notes app is listening on port " + port);
+      console.log(`Connect To Db + magic notes app listening on port http://localhost:${port}/`);;
       
     });
   } catch (err) {
